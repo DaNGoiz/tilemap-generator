@@ -6,7 +6,7 @@ public class ReadRule : MonoBehaviour
 {
     // Given a test asset, return a rule dictionary
     // structure: currentTileNo -> direction -> canConstructTileNo -> weight
-    public static Dictionary<int, Dictionary<string, Dictionary<int, int>>> LoadDictionaryFromTextAsset(TextAsset tileRuleTextFile)
+    public static Dictionary<int, Dictionary<string, Dictionary<int, int>>> LoadDictionaryFromTextAsset(TextAsset tileRuleTextFile, string aboveLayerName = null)
     {
         Dictionary<int, Dictionary<string, Dictionary<int, int>>> ruleDictionary = new Dictionary<int, Dictionary<string, Dictionary<int, int>>>();
         
@@ -37,6 +37,28 @@ public class ReadRule : MonoBehaviour
                         
                         if (!ruleDictionary[currentTileNo].ContainsKey(directoinTiles[0])){ruleDictionary[currentTileNo].Add(directoinTiles[0], new Dictionary<int, int>());}
                         if (!ruleDictionary[currentTileNo][directoinTiles[0]].ContainsKey(tileNo)){ruleDictionary[currentTileNo][directoinTiles[0]].Add(tileNo, weight);}
+                    }
+                }
+                else if (lines[i].StartsWith("above"))
+                {
+                    if(aboveLayerName != null)
+                    {
+                        string[] directoinTiles = lines[i].Split(':');
+                        string[] directionAndLayerName = directoinTiles[0].Split('_');
+                        if(directionAndLayerName[1] == aboveLayerName)
+                        {
+                            string[] tiles = directoinTiles[1].Split(',');
+                            for (int j = 0; j < tiles.Length; j++)
+                            {
+                                tiles[j] = tiles[j].Trim();
+                                string[] tileNoAndWeight = tiles[j].Split('*');
+                                int tileNo = int.Parse(tileNoAndWeight[0]);
+                                int weight = int.Parse(tileNoAndWeight[1]);
+                                
+                                if (!ruleDictionary[currentTileNo].ContainsKey(directionAndLayerName[0])){ruleDictionary[currentTileNo].Add(directionAndLayerName[0], new Dictionary<int, int>());}
+                                if (!ruleDictionary[currentTileNo][directionAndLayerName[0]].ContainsKey(tileNo)){ruleDictionary[currentTileNo][directionAndLayerName[0]].Add(tileNo, weight);}
+                            }
+                        }
                     }
                 }
             }
