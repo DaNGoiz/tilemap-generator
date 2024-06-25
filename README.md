@@ -30,6 +30,11 @@
 - Adjust the rules in `Assets/Scripts/TextFiles`.
   调整`Assets/Scripts/TextFiles`中的规则。
 
+## Effect Videos / 效果视频
+
+- [Large Map](Effect%20Video/Large%20Map.mp4)
+- [Small Map](Effect%20Video/Small%20Map.mp4)
+
 ---
 
 Thank you for using Tile Map Scene Generator. We hope it enhances your development process and helps you create amazing pixel game scenes! 
